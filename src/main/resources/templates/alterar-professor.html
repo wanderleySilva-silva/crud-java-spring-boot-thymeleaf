@@ -63,6 +63,18 @@
 							<input class="form-control" type="number" th:field="*{cpf}">
 						</div>					
 					</div>
+					
+					<div class="row mb-3">
+						<label class="col-sm-1 col-form-label">Áreas de Conhecimento:</label>
+						<div class="col-sm-2">
+							<select class="form-select" th:field="*{areaDeConhecimento}">
+								<th:block th:each="ar : ${areasDeConhecimento}">
+									<option th:value="${ar.codigo}"
+										th:text="${ar.descricao}"></option>
+								</th:block>
+							</select>
+						</div>
+					</div>
 
 					<input class="btn btn-primary" type="submit" value="Gravar" />
 				</form>

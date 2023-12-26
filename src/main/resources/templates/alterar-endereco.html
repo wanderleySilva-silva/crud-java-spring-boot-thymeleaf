@@ -15,7 +15,6 @@
 
 
 <title>Index</title>
-
 <style>
 .mensagem {
 	color: red;
@@ -28,62 +27,49 @@
 	<div class="container">
 		<div class="row" style="padding-bottom: 30px;">
 			<div class="col">
-				<h2>Cadastro de professor</h2>
-				
+				<h2>Alterar endereço</h2>
+				<a th:href="@{/}" class="btn btn-primary">Voltar</a>
 				<div class="alert alert-success alert-dismissible fade show"
 					th:if="${mensagem}">
 					<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
 					<span th:text="${mensagem}"></span>
 				</div>
-				
-				<form th:action="@{/gravar}" th:object="${novoProfessor}" method="post">
+				<form th:action="@{/endereco/alterar-endereco/{codigoProfessor}/{codigoEndereco}(codigoProfessor=${item.professor.codigo}, codigoEndereco=${item.codigo})}" 
+					th:object="${item}" method="post">
 
 					<div class="row mb-3">
-						<label class="col-sm-1 col-form-label">Nome:</label>
+						<label class="col-sm-1 col-form-label">Logradouro:</label>
 						<div class="col-sm-5">
-							<input class="form-control" type="text" th:field="*{nome}">
-						</div>
-						
+							<input class="form-control" type="text" th:field="*{logradouro}">
+						</div>	
 						<div class="col-sm-5">
-							<span class="mensagem" th:if="${#fields.hasErrors('nome')}"
-								th:errors="*{nome}"></span>
-						</div>
-																		
+							<span class="mensagem" th:if="${#fields.hasErrors('logradouro')}"
+								th:errors="*{logradouro}"></span>
+						</div>					
 					</div>
 
 					<div class="row mb-3">
-						<label class="col-sm-1 col-form-label">Idade:</label>
+						<label class="col-sm-1 col-form-label">Número:</label>
 						<div class="col-sm-5">
-							<input class="form-control" type="number" th:field="*{idade}">
+							<input class="form-control" type="text" th:field="*{numero}">
 						</div>
-						
 						<div class="col-sm-5">
-							<span class="mensagem" th:if="${#fields.hasErrors('idade')}"
-								th:errors="*{idade}"></span>
-						</div>
-						
-												
+							<span class="mensagem" th:if="${#fields.hasErrors('numero')}"
+								th:errors="*{numero}"></span>
+						</div>						
 					</div>
 					
 					<div class="row mb-3">
-						<label class="col-sm-1 col-form-label">CPF:</label>
+						<label class="col-sm-1 col-form-label">Cep:</label>
 						<div class="col-sm-5">
-							<input class="form-control" type="text" th:field="*{cpf}">
-						</div>												
-					</div>
-					
-					<div class="row mb-3">
-						<label class="col-sm-1 col-form-label">Áreas de Conhecimento:</label>
-						<div class="col-sm-2">
-							<select class="form-select" th:field="*{areaDeConhecimento}">
-								<th:block th:each="ar : ${areasDeConhecimento}">
-									<option th:value="${ar.codigo}"
-										th:text="${ar.descricao}"></option>
-								</th:block>
-							</select>
+							<input class="form-control" type="text" th:field="*{cep}">
 						</div>
+						<div class="col-sm-5">
+							<span class="mensagem" th:if="${#fields.hasErrors('cep')}"
+								th:errors="*{cep}"></span>
+						</div>						
 					</div>
-					
+
 					<input class="btn btn-primary" type="submit" value="Gravar" />
 				</form>
 			</div>

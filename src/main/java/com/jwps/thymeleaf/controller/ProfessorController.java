@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.jwps.thymeleaf.exception.ProfessorNotFoundException;
+import com.jwps.thymeleaf.model.AreaDeConhecimento;
 import com.jwps.thymeleaf.model.Professor;
+import com.jwps.thymeleaf.service.AreaDeConhecimentoService;
 import com.jwps.thymeleaf.service.ProfessorService;
 
 import jakarta.validation.Valid;
@@ -25,6 +27,9 @@ public class ProfessorController {
 	@Autowired
 	ProfessorService professorService;
 
+	@Autowired
+	AreaDeConhecimentoService areaDeConhecimentoService;
+
 	@GetMapping("/")
 	public String listarProfessores(Model model) {
 
@@ -34,17 +39,16 @@ public class ProfessorController {
 
 		return "/lista-professores";
 	}
-	
+
 	@PostMapping("/buscar")
-    public String buscarProfessores(Model model, @Param("nome") String nome) {	
+	public String buscarProfessores(Model model, @Param("nome") String nome) {
 		if (nome == null) {
 			return "redirect:/";
 		}
 		List<Professor> professores = professorService.buscarTodosProfessoresPorNome(nome);
-		model.addAttribute("listaProfessores",professores);
+		model.addAttribute("listaProfessores", professores);
 		return "/lista-professores";
-    }
-
+	}
 
 	@GetMapping("/novo")
 	public String novoProfessor(Model model) {
@@ -53,18 +57,35 @@ public class ProfessorController {
 
 		model.addAttribute("novoProfessor", professor);
 
+		List<AreaDeConhecimento> areasDeConhecimento = areaDeConhecimentoService.listarAreas();
+
+		model.addAttribute("areasDeConhecimento", areasDeConhecimento);
+
 		return "/novo-professor";
 	}
 
 	@PostMapping("/gravar")
 	public String gravarProfessor(@ModelAttribute("novoProfessor") @Valid Professor professor, BindingResult erros,
-			RedirectAttributes attributes) {
+			RedirectAttributes attributes, Model model) {
 
 		if (erros.hasErrors()) {
+
+			List<AreaDeConhecimento> areasDeConhecimento = areaDeConhecimentoService.listarAreas();
+
+			model.addAttribute("areasDeConhecimento", areasDeConhecimento);
+
 			return "/novo-professor";
 		}
 
 		professorService.criarProfessor(professor);
+
+		List<Professor> professores = professorService.listarProfessores();
+
+		attributes.addFlashAttribute("listaProfessores", professores);
+		
+		List<AreaDeConhecimento> areasDeConhecimento = areaDeConhecimentoService.listarAreas();
+
+		model.addAttribute("areasDeConhecimento", areasDeConhecimento);
 
 		attributes.addFlashAttribute("mensagem", "Professor salvo com sucesso!");
 
@@ -81,28 +102,37 @@ public class ProfessorController {
 		}
 		return "redirect:/";
 	}
-	
+
 	@GetMapping("/editar/{codigo}")
-    public String editarForm(@PathVariable("codigo") Long codigo, RedirectAttributes attributes,
-    		Model model) {	
+	public String editarForm(@PathVariable("codigo") Long codigo, RedirectAttributes attributes, Model model) {
 		try {
 			Professor professor = professorService.buscarProfessorPorCodigo(codigo);
 			model.addAttribute("objetoProfessor", professor);
+
+			List<AreaDeConhecimento> areasDeConhecimento = areaDeConhecimentoService.listarAreas();
+
+			model.addAttribute("areasDeConhecimento", areasDeConhecimento);
+
 			return "/alterar-professor";
 		} catch (ProfessorNotFoundException e) {
 			attributes.addFlashAttribute("mensagemErro", e.getMessage());
 		}
-        return "redirect:/";
-    }
-	
+		return "redirect:/";
+	}
+
 	@PostMapping("/editar/{codigo}")
-	public String editarProfessor(@PathVariable("codigo") Long codigo, 
-								@ModelAttribute("objetoProfessor") @Valid Professor professor, 
-								BindingResult erros) {
+	public String editarProfessor(@PathVariable("codigo") Long codigo,
+			@ModelAttribute("objetoProfessor") @Valid Professor professor, BindingResult erros, Model model) {
 		if (erros.hasErrors()) {
+
 			professor.setCodigo(codigo);
-	        return "/alterar-professor";
-	    }
+
+			List<AreaDeConhecimento> areasDeConhecimento = areaDeConhecimentoService.listarAreas();
+
+			model.addAttribute("areasDeConhecimento", areasDeConhecimento);
+
+			return "/alterar-professor";
+		}
 		professorService.alterarProfessor(professor);
 		return "redirect:/";
 	}
