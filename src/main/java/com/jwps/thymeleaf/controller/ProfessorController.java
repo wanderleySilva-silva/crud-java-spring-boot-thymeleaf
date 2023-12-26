@@ -83,9 +83,6 @@ public class ProfessorController {
 
 		attributes.addFlashAttribute("listaProfessores", professores);
 		
-		List<AreaDeConhecimento> areasDeConhecimento = areaDeConhecimentoService.listarAreas();
-
-		model.addAttribute("areasDeConhecimento", areasDeConhecimento);
 
 		attributes.addFlashAttribute("mensagem", "Professor salvo com sucesso!");
 
