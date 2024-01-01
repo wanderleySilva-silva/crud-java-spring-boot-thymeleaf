@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.jwps.thymeleaf.exception.ProfessorNotFoundException;
+import com.jwps.thymeleaf.exception.PessoaNotFoundException;
 import com.jwps.thymeleaf.model.Endereco;
 import com.jwps.thymeleaf.model.Professor;
 import com.jwps.thymeleaf.service.EnderecoService;
@@ -43,7 +43,7 @@ public class EnderecoController {
 				model.addAttribute("item", professor.getEndereco());
 				pagina = "/alterar-endereco";
 			}
-		} catch (ProfessorNotFoundException e) {
+		} catch (PessoaNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -59,7 +59,7 @@ public class EnderecoController {
 		try {
 			Professor professor = professorService.buscarProfessorPorCodigo(codigoProfessor);
 			endereco.setProfessor(professor);
-		} catch (ProfessorNotFoundException e) {
+		} catch (PessoaNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -81,7 +81,7 @@ public class EnderecoController {
 			Professor professor = professorService.buscarProfessorPorCodigo(codigoProfessor);
 			endereco.setProfessor(professor);
 			endereco.setCodigo(codigoEndereco);
-		} catch (ProfessorNotFoundException e) {
+		} catch (PessoaNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

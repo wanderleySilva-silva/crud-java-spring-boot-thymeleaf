@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.jwps.thymeleaf.exception.ProfessorNotFoundException;
+import com.jwps.thymeleaf.exception.PessoaNotFoundException;
 import com.jwps.thymeleaf.model.AreaDeConhecimento;
 import com.jwps.thymeleaf.model.Professor;
 import com.jwps.thymeleaf.service.AreaDeConhecimentoService;
@@ -42,11 +42,15 @@ public class ProfessorController {
 
 	@PostMapping("/buscar")
 	public String buscarProfessores(Model model, @Param("nome") String nome) {
-		if (nome == null) {
+		
+		List<Professor> professores = professorService.buscarTodosProfessoresPorNome(nome);
+		
+		if (nome == null || professores.isEmpty()) {
 			return "redirect:/";
 		}
-		List<Professor> professores = professorService.buscarTodosProfessoresPorNome(nome);
+		
 		model.addAttribute("listaProfessores", professores);
+		
 		return "/lista-professores";
 	}
 
@@ -94,7 +98,7 @@ public class ProfessorController {
 
 		try {
 			professorService.excluirProfessorPorCodigo(codigo);
-		} catch (ProfessorNotFoundException e) {
+		} catch (PessoaNotFoundException e) {
 			attributes.addFlashAttribute("mensagemErro", e.getMessage());
 		}
 		return "redirect:/";
@@ -111,7 +115,7 @@ public class ProfessorController {
 			model.addAttribute("areasDeConhecimento", areasDeConhecimento);
 
 			return "/alterar-professor";
-		} catch (ProfessorNotFoundException e) {
+		} catch (PessoaNotFoundException e) {
 			attributes.addFlashAttribute("mensagemErro", e.getMessage());
 		}
 		return "redirect:/";

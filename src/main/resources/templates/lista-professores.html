@@ -25,21 +25,25 @@
 
 .container {
 	box-shadow: 5px 5px 10px #888888;
-	margin-top: 32px; /* Cor da borda vermelha */
+	margin-top: 32px;/* Cor da borda vermelha */
+	width: 100%;
+	
 }
 
 .titulo-pagina {
 	color: #000000; /* Cor do texto - substitua pela cor desejada */
 	font-size: 32px; /* Tamanho da fonte */
 	font-weight: bold; /* Peso da fonte (negrito) */
-	margin-bottom: 20px; /* Espaçamento abaixo do título */
+	margin-bottom: 20px; 
 }
+
+
 </style>
 
 </head>
 <body>
 
-	<div class="container">
+	<div  class="container">
 
 		<div class="alert alert-success alert-dismissible fade show"
 			th:if="${mensagem}">
@@ -98,7 +102,7 @@
 								th:text="${professor.cpf}"></span></td>
 							<td><span th:text="${professor.areaDeConhecimento.descricao}"></span></td>
 							<td>
-								<div class="d-flex justify-content-start">
+								<div class="d-flex justify-content-center align-items-center">
 									<a class="fa-regular fa-trash-can icon-dark btn-delete"
 										th:href="@{/apagar/{codigo}(codigo=${professor.codigo})}"
 										th:data-confirm-delete="|Você gostaria de apagar ${professor.nome}?|"
@@ -120,9 +124,9 @@
 			</div>
 
 			<div class="row" style="padding-bottom: 30px;">
-				<div class="col">
-					<a th:href="@{/novo}" class="btn btn-primary">Novo Professor</a>
-					<a th:href="@{/areaDeConhecimento/novo}" class="btn btn-primary">Nova Área de Conhecimento</a>
+				<div class="d-flex">
+					<a th:href="@{/novo}" class="btn btn-primary btn-sm" style="margin-right: 4px;">Novo Professor</a>
+					<a th:href="@{/areaDeConhecimento/novo}" class="btn btn-primary btn-sm">Nova Área de Conhecimento</a>
 				</div>
 			</div>
 		</div>

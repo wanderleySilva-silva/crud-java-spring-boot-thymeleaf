@@ -6,7 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.jwps.thymeleaf.exception.ProfessorNotFoundException;
+import com.jwps.thymeleaf.exception.PessoaNotFoundException;
 import com.jwps.thymeleaf.model.Professor;
 import com.jwps.thymeleaf.repository.ProfessorRepository;
 
@@ -25,17 +25,17 @@ public class ProfessorService {
 		return professorRepository.findAll();
 	}
 	
-	public Professor buscarProfessorPorCodigo(Long codigo) throws ProfessorNotFoundException {
+	public Professor buscarProfessorPorCodigo(Long codigo) throws PessoaNotFoundException {
 		Optional<Professor> professorEncotrado = professorRepository.findById(codigo);
 		
 		if(professorEncotrado.isPresent()) {
 			return professorEncotrado.get();
 		}else {
-			throw new ProfessorNotFoundException("Professor com código " + codigo + " não foi encontrado.");
+			throw new PessoaNotFoundException("Professor com código " + codigo + " não foi encontrado.");
 		}	
 	}
 	
-	public void excluirProfessorPorCodigo(Long codigo) throws ProfessorNotFoundException {
+	public void excluirProfessorPorCodigo(Long codigo) throws PessoaNotFoundException {
 		Professor professor = buscarProfessorPorCodigo(codigo);
 		professorRepository.delete(professor);
 	}
