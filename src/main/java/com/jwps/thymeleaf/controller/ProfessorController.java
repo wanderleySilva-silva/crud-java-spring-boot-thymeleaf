@@ -83,14 +83,9 @@ public class ProfessorController {
 
 		professorService.criarProfessor(professor);
 
-		List<Professor> professores = professorService.listarProfessores();
-
-		attributes.addFlashAttribute("listaProfessores", professores);
-		
-
 		attributes.addFlashAttribute("mensagem", "Professor salvo com sucesso!");
 
-		return "redirect:/";
+		return "redirect:/novo";
 	}
 
 	@GetMapping("/apagar/{codigo}")

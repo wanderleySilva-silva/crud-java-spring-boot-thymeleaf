@@ -23,112 +23,124 @@
 	color: red;
 }
 
+body {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100vh;
+	width: 100%;
+	background-color: #ffffff;
+}
+
 .container {
 	box-shadow: 5px 5px 10px #888888;
-	margin-top: 32px;/* Cor da borda vermelha */
-	width: 100%;
-	
+	margin-top: 32px; /* Cor da borda vermelha */
+	width: 70%;
 }
 
 .titulo-pagina {
 	color: #000000; /* Cor do texto - substitua pela cor desejada */
 	font-size: 32px; /* Tamanho da fonte */
 	font-weight: bold; /* Peso da fonte (negrito) */
-	margin-bottom: 20px; 
+	margin-bottom: 20px;
 }
-
-
 </style>
 
 </head>
 <body>
+	<div class="container"
+		style="align-items: center; justify-content: center;">
+		<div class="table-responsive">
 
-	<div  class="container">
-
-		<div class="alert alert-success alert-dismissible fade show"
-			th:if="${mensagem}">
-			<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-			<span th:text="${mensagem}"></span>
-		</div>
-
-
-		<h1 class="titulo-pagina">Lista de professores</h1>
-
-
-		<div class="row" style="margin-top: 20px; margin-bottom: 20px;">
-			<div class="col-sm-5">
-				<form th:action="@{/buscar}" method="post"
-					style="margin-top: 20px; margin-bottom: 20px;">
-					<div class="input-group">
-						<input type="text" class="form-control" name="nome"
-							placeholder="Busque por um professor" style="margin-right: 3px;" />
-						<input class="btn btn-primary" type="submit" value="Buscar"
-							style="margin-right: 3px;" /> <a th:href="@{/}"
-							class="btn btn-danger" type="submit">Cancelar </a>
-					</div>
-				</form>
-			</div>
-		</div>
-
-
-		<div class="row">
-			<div class="table-responsive">
-
-				<table class="table table-bordered">
-					<thead>
-						<tr>
-							<th>Código</th>
-							<th>Nome</th>
-							<th>Idade</th>
-							<th>CPF</th>
-							<th>Área de Conhecimento</th>
-							<th>Ações</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr th:if="${listaProfessores.empty}">
-							<td colspan="3">Não existem professores.</td>
-						</tr>
-
-						<tr th:each="professor : ${listaProfessores}">
-
-							<td style="white-space: nowrap;"><span
-								th:text="${professor.codigo}"></span></td>
-							<td style="white-space: nowrap;"><span
-								th:text="${professor.nome}"></span></td>
-							<td style="white-space: nowrap;"><span
-								th:text="${professor.idade}"></span></td>
-							<td style="white-space: nowrap;"><span
-								th:text="${professor.cpf}"></span></td>
-							<td><span th:text="${professor.areaDeConhecimento.descricao}"></span></td>
-							<td>
-								<div class="d-flex justify-content-center align-items-center">
-									<a class="fa-regular fa-trash-can icon-dark btn-delete"
-										th:href="@{/apagar/{codigo}(codigo=${professor.codigo})}"
-										th:data-confirm-delete="|Você gostaria de apagar ${professor.nome}?|"
-										th:onclick="if (!confirm(this.getAttribute('data-confirm-delete')))
-												      return false">
-
-									</a> &nbsp; <a class="fa-regular fa-pen-to-square icon-dark"
-										th:href="@{/editar/{codigo}(codigo=${professor.codigo})}"></a>
-
-									&nbsp; <a class="fa-solid fa-house"
-										th:href="@{/endereco/buscar-endereco/{codigo}(codigo=${professor.codigo})}"></a>
-								</div>
-							</td>
-
-						</tr>
-					</tbody>
-				</table>
-
+			<div class="alert alert-success alert-dismissible fade show"
+				th:if="${mensagem}">
+				<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+				<span th:text="${mensagem}"></span>
 			</div>
 
-			<div class="row" style="padding-bottom: 30px;">
-				<div class="d-flex">
-					<a th:href="@{/novo}" class="btn btn-primary btn-sm" style="margin-right: 4px;">Novo Professor</a>
-					<a th:href="@{/areaDeConhecimento/novo}" class="btn btn-primary btn-sm">Nova Área de Conhecimento</a>
+
+			<h1 class="titulo-pagina">Lista de professores</h1>
+
+
+			<div class="row" style="margin-top: 20px; margin-bottom: 20px;">
+				<div class="col-sm-5">
+					<form th:action="@{/buscar}" method="post"
+						style="margin-top: 20px; margin-bottom: 20px;">
+						<div class="input-group">
+							<input type="text" class="form-control" name="nome"
+								placeholder="Busque por um professor" style="margin-right: 3px;" />
+							<input class="btn btn-primary" type="submit" value="Buscar"
+								style="margin-right: 3px;" /> <a th:href="@{/}"
+								class="btn btn-danger" type="submit">Cancelar </a>
+						</div>
+					</form>
 				</div>
 			</div>
+
+
+			<div class="row">
+				<div class="table-responsive">
+
+					<table class="table table-bordered">
+						<thead>
+							<tr>
+								<th>Código</th>
+								<th>Nome</th>
+								<th>Idade</th>
+								<th>CPF</th>
+								<th>Área de Conhecimento</th>
+								<th>Ações</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:if="${listaProfessores.empty}">
+								<td colspan="3">Não existem professores.</td>
+							</tr>
+
+							<tr th:each="professor : ${listaProfessores}">
+
+								<td style="white-space: nowrap;"><span
+									th:text="${professor.codigo}"></span></td>
+								<td style="white-space: nowrap;"><span
+									th:text="${professor.nome}"></span></td>
+								<td style="white-space: nowrap;"><span
+									th:text="${professor.idade}"></span></td>
+								<td style="white-space: nowrap;"><span
+									th:text="${professor.cpf}"></span></td>
+								<td><span
+									th:text="${professor.areaDeConhecimento.descricao}"></span></td>
+								<td>
+									<div class="d-flex justify-content-center align-items-center">
+										<a class="fa-regular fa-trash-can icon-dark btn-delete"
+											th:href="@{/apagar/{codigo}(codigo=${professor.codigo})}"
+											th:data-confirm-delete="|Você gostaria de apagar ${professor.nome}?|"
+											th:onclick="if (!confirm(this.getAttribute('data-confirm-delete')))
+												      return false">
+
+										</a> &nbsp; <a class="fa-regular fa-pen-to-square icon-dark"
+											th:href="@{/editar/{codigo}(codigo=${professor.codigo})}"></a>
+
+										&nbsp; <a class="fa-solid fa-house"
+											th:href="@{/endereco/buscar-endereco/{codigo}(codigo=${professor.codigo})}"></a>
+									</div>
+								</td>
+
+							</tr>
+						</tbody>
+					</table>
+
+				</div>
+
+			</div>
+			<div class="row" style="padding-bottom: 30px;">
+				<div class="d-flex">
+					<a th:href="@{/novo}" class="btn btn-primary text-nowrap"
+						style="margin-right: 4px;">Novo Professor</a> <a
+						th:href="@{/areaDeConhecimento/novo}"
+						class="btn btn-primary text-nowrap">Nova Área de Conhecimento</a>
+				</div>
+			</div>
+
 		</div>
 
 	</div>
